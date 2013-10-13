@@ -1,0 +1,46 @@
+/* 
+    Document   : style
+    Created on : Oct 12, 2013, 4:20:57 PM
+    Author     : Elad Levi
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.container {
+    width: 150px;
+    height: 50px;
+    margin: 0 auto 40px;
+    border: 1px solid #CCC;
+    -webkit-perspective: 200px;
+}
+.wrapper {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 1s ease-in-out;
+}
+
+.wrapper:hover {
+    -webkit-transform: rotateY(-90deg) translateX(-75px) translateZ(75px);
+    -webkit-transition: -webkit-transform 0.5s;
+}
+.box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+}
+
+.frontBox {
+    background-color: #3cafe4;
+}
+
+.backBox {
+    background-color: rosybrown;
+    -webkit-transform: translateX(75px) translateZ(-75px) rotateY(90deg)
+}
+
