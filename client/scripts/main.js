@@ -4,9 +4,19 @@ requirejs.config({
         'jquery' : 'libs/jquery-1.10.2',
         'backbone' : 'libs/backbone',
         'underscore' : 'libs/underscore',
-        'handlebars' : 'libs/handlebars'
+        'Handlebars' : 'libs/handlebars',
+        'swfobject' : 'libs/swfobject',
+        'hbars': 'libs/hbars',
+        'text': 'libs/text.2.0.5',
+        'fancyinput': 'libs/fancyInput'
     },
     shim: {
+        'fancyinput': {
+          exports: 'fancyinput'  
+        },
+        'swfobject' : {
+            exports: 'swfobject'
+        },
         'underscore' : {
             exports: '_'
         },
@@ -17,6 +27,3 @@ requirejs.config({
     }
 });
 
-require(['test'], function () {
-    
-});

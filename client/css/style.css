@@ -1,11 +1,8 @@
-/* 
-    Document   : style
-    Created on : Oct 12, 2013, 4:20:57 PM
-    Author     : Elad Levi
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
+body {
+    height: 100%;
+    text-align: center;
+    margin: 0;
+}
 root { 
     display: block;
 }
@@ -25,7 +22,7 @@ root {
 }
 
 .wrapper:hover {
-    -webkit-transform: rotateY(-90deg) translateX(-75px) translateZ(75px);
+    -webkit-transform: rotateY(-90deg) rotateX(-40deg) translateX(-75px) translateZ(75px);
     -webkit-transition: -webkit-transform 0.5s;
 }
 .box {
@@ -44,3 +41,81 @@ root {
     -webkit-transform: translateX(75px) translateZ(-75px) rotateY(90deg)
 }
 
+.player-wrapper {
+    width:100%;
+    min-height: 900px;
+    background: -webkit-radial-gradient(#205983, #0A2742);
+    background: radial-gradient(#205983, #0A2742);
+}
+
+.player-center {
+    min-height: 530px;
+    display: inline-block;
+    width: 800px;
+    min-width: 600px;
+    margin-top: -9px;
+}
+
+.fancyInput {
+    width: 80% !important;
+    margin-top: 111px;
+}
+
+.player-aside {
+    height: 900px;
+    width: 300px;
+    margin-left: 10px;
+    display: inline-block;
+    float: left;
+}
+
+.player-holder {
+    
+}
+
+.player-playlist-holder {
+    width: 100%;
+    min-height: 500px;
+    background-color: rgba(2, 2, 2, 0.31);
+    background-color: rgba(2, 2, 2, 0.31);
+    box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 2px 4px rgba(0,0,0,.2) inset, 0 0 12px rgba(255,255,255,.1);
+/*    -moz-box-shadow: inset 0 0 12px 1px #000;
+    -webkit-box-shadow: inset 0 0 12px 1px #000;
+    box-shadow: inset 0 0 12px 1px #000;*/
+}
+
+.requester-wrapper {
+    width:100%;
+    min-height: 900px;
+    background: -webkit-radial-gradient(#205983, #0A2742);
+    background: radial-gradient(#205983, #0A2742);
+}
+
+.requester-holder {
+    padding-top: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    margin-bottom: 25px;
+}
+
+.requester-item-wrapper {
+    width: 608px;
+    height: 104px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(137, 137, 138, 0.16);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px; 
+    overflow: hidden;
+}
+
+.requester-item-img {
+    width: 185px;
+    float: left;
+}
+
+.requester-item-title {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+}
