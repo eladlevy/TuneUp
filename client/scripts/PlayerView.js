@@ -1,5 +1,6 @@
-define(['jquery', 'backbone', 'PlayerQueue', 'fancyinput', 'SearchResults', 'ListItemView', 'underscore'], 
-function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
+define(['jquery', 'backbone', 'PlayerQueue', 'fancyinput', 'SearchResults', 'ListItemView', 'underscore', 
+    'PlayListView', 'RequestTrack', 'NextRequestView'], 
+function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, PlayListView, RequestTrack, NextRequestView) {
 
     var PlayerView = Backbone.View.extend({
         model: new PlayerQueue(),
@@ -33,8 +34,17 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
             this.$('div :input').fancyInput();
             this.subViews = {};
             this.searchResults = new SearchResults();
-            this.listenTo(this.searchResults,'add', this.renderResults);
+            this.nextRequest = new RequestTrack();
+            this.nextRequestView = new NextRequestView({
+                model: this.nextRequest,
+                el: this.$('.player-playlist-holder')
+            });
+            this.playListView = new PlayListView({
+                model: this.model,
+                el: this.$('.player-playlist-holder')
+            });
             
+            this.listenTo(this.searchResults,'add', this.renderResults);
             this.listenTo(Backbone, 'playerReady', this.fetchAfterPlayer);
             this.listenTo(Backbone, 'trackEnded', this.playNext);
             //bind youtubeplay event to play method
@@ -45,7 +55,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
             //extend this.o so the options are globally accessable
             this.o = $.extend(true, this.defaults, options);
             this.render();
-            aaa = this.model;
+            aaa = this.nextRequest;
         },
                 
         queryChanged: function(event) {
@@ -81,7 +91,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
             }
             
          },
-         
+  
          renderResults: function() {
             var thisView = this;
             _.each(this.subViews, function(view) {
@@ -127,8 +137,8 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
             }
         },
         playNext: function() {
-            if(this.model._meta['next-track'] && this.model._meta['next-track'].length > 0) {
-                this.ytplayer.loadVideoById(this.model._meta['next-track']);
+            if(this.nextRequest.get('id') && this.nextRequest.get('id').length > 0) {
+                this.ytplayer.loadVideoById(this.nextRequest.get('id'));
                 $.ajax({
                     url: 'next-request',
                     contentType: 'application/json',
@@ -138,11 +148,12 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _) {
                         
                     }
                 });
-                this.model._meta['next-track'] = "";
+                this.nextRequest.set('id', "");
             } else {
+                this.playListView.render();
                 var nextTrack = this.model.head();
                 this.ytplayer.loadVideoById(nextTrack.id);
-                this.model.remove(nextTrack);
+                this.model.remove(nextTrack);                
             }
             
         }

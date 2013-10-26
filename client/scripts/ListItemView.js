@@ -1,6 +1,6 @@
 define(['jquery', 'backbone', 'Handlebars', 'hbars!templates/searchResults', 'underscore', 'PlayerQueue'], function($, Backbone, Handlebars, 
 template, _, PlayerQueue) {
-     var PlayerView = Backbone.View.extend({
+     var listItemView = Backbone.View.extend({
          events: {
             'click .requester-item-wrapper': 'itemClicked'
          },
@@ -32,5 +32,5 @@ template, _, PlayerQueue) {
          
      });
      
-     return PlayerView;
+     return listItemView;
 });
