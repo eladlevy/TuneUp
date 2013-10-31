@@ -148,6 +148,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
                         
                     }
                 });
+ 
                 this.nextRequestView.clean();
             } else {
                 this.playListView.render();

@@ -10,20 +10,7 @@ requirejs.config({
         'text': 'libs/text.2.0.5',
         'fancyinput': 'libs/fancyInput'
     },
-    shim: {
-        'fancyinput': {
-          exports: 'fancyinput'  
-        },
-        'swfobject' : {
-            exports: 'swfobject'
-        },
-        'underscore' : {
-            exports: '_'
-        },
-        'backbone' : {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        }       
+    shim: {      
     }
 });
 

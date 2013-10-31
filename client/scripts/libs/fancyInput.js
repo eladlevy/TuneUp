@@ -4,8 +4,8 @@
 	
 	MIT-style license.
 */
-
-;(function($){
+define([], function() {
+ var fancyInput = (function($){
 	"use strict";
 	var isIe = !!window.ActiveXObject,
 		isWebkit = 'webkitRequestAnimationFrame' in window,
@@ -372,3 +372,6 @@
 
 	window.fancyInput = fancyInput;
 })(window.jQuery);
+
+return fancyInput;
+});

@@ -3,7 +3,8 @@
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
-(function() {
+define([], function() {
+var underscore = (function() {
 
   // Baseline setup
   // --------------
@@ -1274,3 +1275,6 @@
   });
 
 }).call(this);
+
+return underscore;
+});
