@@ -1,5 +1,6 @@
-define(['jquery', 'backbone', 'Handlebars', 'hbars!templates/searchResults', 'fancyinput', 'SearchResults', 'underscore', 'ListItemView'], function($, Backbone, Handlebars, 
-template, FancyInput, SearchResults, _, ListItemView) {
+define(['jquery', 'backbone', 'Handlebars', 'hbars!templates/searchResults', 'fancyinput', 'SearchResults', 'underscore', 
+    'ListItemView', 'NextRequestView', 'RequestTrack'], function($, Backbone, Handlebars, 
+template, FancyInput, SearchResults, _, ListItemView, NextRequestView, RequestTrack) {
      var PlayerView = Backbone.View.extend({
          el: this.$('.requester-wrapper'),
          
@@ -15,6 +16,11 @@ template, FancyInput, SearchResults, _, ListItemView) {
          initialize: function() {
              this.$('div :input').fancyInput();
              this.listenTo(this.model,'add', this.render);
+             this.nextRequest = new RequestTrack();
+             this.nextRequestView = new NextRequestView({
+                 el: this.$('.requester-next'),
+                 model: this.nextRequest
+             });
              this.subViews = {};
          },
          

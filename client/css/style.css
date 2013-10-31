@@ -142,6 +142,8 @@ root {
     line-height: 50px;
     text-shadow: 0 2px 5px rgba(0,0,0,.6);
     color: white;
+    height: 50px;
+    overflow: hidden;
 }
 
 .nextrequest-holder {
@@ -151,6 +153,10 @@ root {
     border: 1px solid rgba(137, 137, 138, 0.16);
     overflow: hidden;
     margin-bottom: 5px;
+    transition: all 1s;
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+    -webkit-transition: all 1s;
 }
 
 .nextrequest-image {
@@ -169,4 +175,10 @@ root {
     font-family: 'Fjalla One', sans-serif;
     line-height: 50px;
     color: rgb(202, 58, 58);
+}
+
+.requester-next{
+    position: fixed;
+    width: 300px;
+    height: 100px;
 }

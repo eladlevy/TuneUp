@@ -148,7 +148,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
                         
                     }
                 });
-                this.nextRequest.set('id', "");
+                this.nextRequestView.clean();
             } else {
                 this.playListView.render();
                 var nextTrack = this.model.head();
