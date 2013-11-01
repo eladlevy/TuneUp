@@ -4,7 +4,7 @@
 	
 	MIT-style license.
 */
-define([], function() {
+define(['jquery'], function($) {
  var fancyInput = (function($){
 	"use strict";
 	var isIe = !!window.ActiveXObject,
