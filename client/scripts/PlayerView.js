@@ -32,7 +32,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
         },
 
         initialize: function(options) {
-            this.$('div :input').fancyInput();
+            this.$('.requester-search').fancyInput();
             this.subViews = {};
             this.searchResults = new SearchResults();
             this.nextRequest = new RequestTrack();

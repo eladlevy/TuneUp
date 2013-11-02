@@ -185,7 +185,7 @@ root {
 
 .select-name-wrapper {
     width: 600px;
-    height: 300px;
+    height: 200px;
     position: fixed;
     top: 100px;
     background-color: rgba(0, 0, 0, 0.9);
@@ -195,4 +195,9 @@ root {
 .name-fancy-input {
     width: 35%;
     min-width: 35%;
+    margin-top: 32px;
+}
+
+.name-text {
+    font-size: 35px;
 }

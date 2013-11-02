@@ -28,7 +28,9 @@ template, _, PlayerQueue, FancyInput) {
          render: function() {
              var html = template(this.model.toJSON());
              this.$el.html(html);
-             this.$('.name-input').fancyInput();
+             if (!this.$('.fancyInput').length) {
+                this.$('.name-input').fancyInput();   
+             }
              return this;
          }
          
