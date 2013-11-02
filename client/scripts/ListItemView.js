@@ -11,15 +11,16 @@ template, _, PlayerQueue) {
          itemClicked: function(event) {
             if(!this.options.isPlayer) {
                 Backbone.ajax({
-                    url: '/next-request',
+                    url: window.location.pathname + '/next-request',
                     method: 'POST',
                     data: this.model.toJSON(),
                     success: function(response){
-                        alert("success!");
+                       
                     }
                 });
             } else {
                 this.options.playerQueue.push(this.model);
+                this.options.playerQueue.updatePlayList();
             }
              
          },

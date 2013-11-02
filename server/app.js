@@ -1,7 +1,7 @@
 var  express = require ('express');
 var app = express();
 var templates = require('./HandlebarsTemplates');
-//var mongoose = require( 'mongoose' );
+var mongoose = require( 'mongoose' );
 
 app.configure(function(){
     app.use('/',express.static('../client/'));
@@ -10,15 +10,51 @@ app.configure(function(){
     app.use(express.session({ secret:"baloze123"}));
 });
 
-//var teamSchema = new mongoose.Schema({
-// country: String,
-// GroupName: String
-//});
-//mongoose.model( 'Team', teamSchema );
-
-//mongoose.connect( 'mongodb://localhost/TaskManager' );
-
+mongoose.connect( 'mongodb://ec2-54-200-178-60.us-west-2.compute.amazonaws.com:27017/' );
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+var trackSchema = mongoose.Schema({
+   "kind": String,
+   "etag": String,
+   "id": String,
+   "snippet": {
+    "publishedAt": String,
+    "channelId": String,
+    "title": String,
+    "description": String,
+    "thumbnails": {
+     "default": {
+      "url": String
+     },
+     "medium": {
+      "url": String
+     },
+     "high": {
+      "url": String
+     }
+    },
+    "channelTitle": String,
+    "liveBroadcastContent": String
+   }
+  });
+  
+var playListSchema = mongoose.Schema({
+    name: {type: String, lowercase: true, index: {unique: true}},
+    tracks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Track'
+    }],
+    'next-request': {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Track'
+    }
+  });
+  
+var Track = mongoose.model('Track', trackSchema);
+var PlayList = mongoose.model('PlayList', playListSchema);
+  
 app.use('/scripts/templates', express.static('templates'));
+app.use('/:playListName', express.static('../client/'));
 var videos ={ 
     "videos":
             [
@@ -72,49 +108,138 @@ var videos ={
   }
     ]
   };
-//        [
-//            {
-//            "id": "elK0jHNAcR4"
-//            },
-//            {
-//            "id": "AJDUHq2mJx0"
-//            },
-//            {
-//            "id": "R91HqTB1RIA"
-//            },
-//            {
-//            "id": "thclj_CDwxs"
-//            },
-//            {
-//            "id": "JVDFxP4XoMQ"
-//            },
-//            {
-//            "id": "BtMiFCHmtQ8"
-//            },
-//            {
-//            "id": "H9XW2v3tYfw"
-//            }
-//        ]
   
-
 var nextRequest = {
                 "id": "SQLF8zgfocw"
             };
 
-app.get('/requester', function(req,res){
-      res.send(templates.requester());
-});
-app.get('/queued-videos', function(req,res){
-      res.json(videos);
+app.get('/:playListName', function(req,res){
+    PlayList.findOne({ 'name': req.params.playListName }, function (err, playlist) {
+        if(playlist) {
+            res.send(templates.requester());
+        } else {
+            res.json({'error': 400, 'message': 'Play list does not exsits'});
+        }
+    });
+      
 });
 
-app.get('/next-request', function(req,res){
-      res.json(nextRequest);
+app.get('/play/queued-videos', function(req,res){
+    var playListName = req.cookies['tuneUp-name'];
+    console.log("Recieved cookie with name: " + playListName);
+    PlayList.findOne({ 'name': playListName})
+    .populate('tracks')
+    .exec(function (err, playlist) {
+        if(playlist) {
+            res.json(playlist);
+        } else {
+            res.json({'error': 400, 'message': playListName});
+        }
+    });
+    
+      //res.json(videos);
 });
 
-app.post('/next-request', function(req,res){
-      nextRequest = req.body;
-      res.json(nextRequest);
+app.get('/:playListName/next-request', function(req,res){
+    PlayList.findOne({ 'name': req.params.playListName })
+    .populate('next-request')
+    .exec(function (err, playlist) {
+        if(playlist) {
+            res.json(playlist['next-request']);
+            
+        } else {
+            res.json({'error': 400, 'message': 'Play list does not exsits'});
+        }
+    });
+      
+});
+
+app.post('/:playListName/next-request', function(req,res){
+    PlayList.findOne({ 'name': req.params.playListName }, function (err, playlist) {
+        if(playlist) {
+            var track = new Track(req.body);
+            track.save(function(err){
+                if (err){
+                    console.log(err);
+                }
+             playlist['next-request'] = track;
+             playlist.save(function (err) {
+                if (err){
+                    console.log(err);
+                    res.json(err);
+                } else {
+                    res.json({'code': 201, 'message': 'Saved successfully'});
+                }
+              });
+            });
+
+        } else {
+            res.json({'error': 400, 'message': 'Play list does not exsits'});
+        }
+    });
+      //res.json(nextRequest);
+});
+
+app.post('/updatePlayList', function(req,res){
+ console.log("Recieved cookie with name: " + req.cookies['tuneUp-name']);
+          if(req.cookies['tuneUp-name'] && req.cookies['tuneUp-name'].length > 0) {
+              PlayList.findOne({'name' : req.cookies['tuneUp-name'] }, function (err, playlist) {
+                 for(var i = 0; i < req.body.tracks.length; i++){
+                     console.log(req.body.tracks[i]);
+                     if (!req.body.tracks[i]._id) {
+                        var track = new Track(req.body.tracks[i]);
+                        track.save(function(err){
+                        if (err){
+                            console.log(err);
+                        }
+                        console.log("Pushing Track!!!!!");
+                        
+                        });
+                        
+                        playlist.tracks.push(track);
+                     }
+                 }
+                
+                 console.log("Saving paly list#######");
+                 playlist.save(function (err) {
+                    if (err){
+                        console.log(err);
+                        res.json(err);
+                    } else {
+                        res.json({'code': 201, 'message': 'Saved successfully'});
+                    }
+                });
+              });
+          }else {
+            var name = req.body.name.toLowerCase();
+            PlayList.findOne({ 'name': name }, function (err, track) {
+              if (track) {
+                  res.json({'error': 400, 'message': 'Duplicate playlist name'});
+              }else {
+                  console.log("Creating new playlist!");
+                  var playlist = new PlayList({'name': name});
+                  if(req.body.tracks) {
+                  for(var i = 0; i < req.body.tracks.length; i++) {
+                      var track = new Track(req.body.tracks[i]);
+                      track.save(function(err){
+                          if (err){
+                              console.log(err);
+                          }
+                      });
+                      playlist.tracks.push(track);
+                  }
+                  playlist.save(function (err) {
+                      if (err){
+                          console.log(err);
+                          res.json(err);
+                      } else {
+                          res.json({'code': 201, 'message': 'Saved successfully'});
+                  }
+              });
+                  }
+              }  
+            });
+          }
 });
 
 app.listen(8080);

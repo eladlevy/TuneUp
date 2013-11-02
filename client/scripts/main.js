@@ -8,9 +8,11 @@ requirejs.config({
         'swfobject' : 'libs/swfobject',
         'hbars': 'libs/hbars',
         'text': 'libs/text.2.0.5',
-        'fancyinput': 'libs/fancyInput'
+        'fancyinput': 'libs/fancyInput',
+        'jquery-cookie': 'libs/jquery.cookie',
     },
-    shim: {      
+    shim: {
+        'jquery-cookie': ['jquery']
     }
 });
 

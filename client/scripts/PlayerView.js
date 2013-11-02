@@ -1,6 +1,7 @@
 define(['jquery', 'backbone', 'PlayerQueue', 'fancyinput', 'SearchResults', 'ListItemView', 'underscore', 
-    'PlayListView', 'RequestTrack', 'NextRequestView'], 
-function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, PlayListView, RequestTrack, NextRequestView) {
+    'PlayListView', 'RequestTrack', 'NextRequestView', 'jquery-cookie', 'SelectNameView'], 
+function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, PlayListView, RequestTrack, NextRequestView
+, JqueryCookie, SelectNameView) {
 
     var PlayerView = Backbone.View.extend({
         model: new PlayerQueue(),
@@ -45,6 +46,7 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
             });
             
             this.listenTo(this.searchResults,'add', this.renderResults);
+            this.listenTo(this.model,'add', this.checkForName);
             this.listenTo(Backbone, 'playerReady', this.fetchAfterPlayer);
             this.listenTo(Backbone, 'trackEnded', this.playNext);
             //bind youtubeplay event to play method
@@ -56,6 +58,16 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
             this.o = $.extend(true, this.defaults, options);
             this.render();
             aaa = this.nextRequest;
+        },
+        
+        checkForName: function() {
+            if (!this.model._meta.name) {
+                var selectName = new SelectNameView({
+                    el : this.$('.select-name-pop-up'),
+                    model : this.model
+                });
+                selectName.render();
+            }
         },
                 
         queryChanged: function(event) {
