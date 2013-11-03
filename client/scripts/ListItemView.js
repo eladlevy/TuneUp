@@ -14,7 +14,7 @@ template, _, PlayerQueue) {
                     url: window.location.pathname + '/next-request',
                     contentType: 'application/json',
                     method: 'POST',
-                    data: this.model.toJSON(),
+                    data: JSON.stringify(this.model.toJSON()),
                     success: function(response){
                        
                     }
