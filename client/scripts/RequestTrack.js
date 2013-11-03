@@ -10,7 +10,7 @@ define(['jquery', 'backbone', 'jquery-cookie'], function($, Backbone, jqueryCook
             if ($.cookie('tuneUp-name')) {
                 url = $.cookie('tuneUp-name') + '/next-request';
             } else {
-                url = window.location.pathname + 'next-request'
+                url = window.location.pathname + '/next-request'
             }
             setTimeout(function(){
             $.ajax({
