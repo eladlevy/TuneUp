@@ -12,6 +12,7 @@ template, _, PlayerQueue) {
             if(!this.options.isPlayer) {
                 Backbone.ajax({
                     url: window.location.pathname + '/next-request',
+                    contentType: 'application/json',
                     method: 'POST',
                     data: this.model.toJSON(),
                     success: function(response){
