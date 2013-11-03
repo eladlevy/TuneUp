@@ -18,7 +18,7 @@ define(['jquery', 'backbone', 'jquery-cookie'], function($, Backbone, jqueryCook
                     contentType: 'application/json',
                     type: 'GET',
                     success: function(result) {
-                        thisModel.set(result);
+                        thisModel.set(JSON.parse(result));
                     }
              });
             thisModel.queuePoll();

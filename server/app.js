@@ -145,7 +145,7 @@ app.get('/:playListName/next-request', function(req,res){
     .populate('next-request')
     .exec(function (err, playlist) {
         if(playlist) {
-            res.json(playlist['next-request']);
+            res.json(JSON.stringify(playlist['next-request']));
             
         } else {
             res.json({'error': 400, 'message': 'Play list does not exsits'});
