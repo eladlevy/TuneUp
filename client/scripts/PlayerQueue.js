@@ -27,8 +27,10 @@ define(['jquery', 'backbone', 'jquery-cookie'], function($, Backbone, jqueryCook
                     method: 'POST',
                     data: JSON.stringify(data),
                     success: function(response){
-                                $.cookie('tuneUp-name', thisModel.name, {expires: 7});
-                                console.log(response);
+                                if (!$.cookie('tuneUp-name')) {
+                                    $.cookie('tuneUp-name', thisModel.name, {expires: 7});
+                                    console.log(response);
+                                }
                             }
                         });
             console.log(this.toJSON());
