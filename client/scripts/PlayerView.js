@@ -57,7 +57,6 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
             //extend this.o so the options are globally accessable
             this.o = $.extend(true, this.defaults, options);
             this.render();
-            aaa = this.nextRequest;
         },
         
         checkForName: function() {
@@ -68,6 +67,10 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
                 });
                 selectName.render();
             }
+            if (this.ytplayer.getPlayerState() === -1) {
+                this.playNext();
+            }
+            
         },
                 
         queryChanged: function(event) {
@@ -152,9 +155,9 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
             if(this.nextRequest.get('id') && this.nextRequest.get('id').length > 0) {
                 this.ytplayer.loadVideoById(this.nextRequest.get('id'));
                 $.ajax({
-                    url: 'next-request',
+                    url: $.cookie('tuneUp-name') + '/next-request',
                     contentType: 'application/json',
-                    data: JSON.stringify({id: ""}),
+                    data: JSON.stringify({}),
                     type: 'POST',
                     success: function(result) {
                         

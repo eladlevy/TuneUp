@@ -1,6 +1,5 @@
 requirejs.config({
    baseUrl: '/scripts/',
-   urlArgs: 'bust=' + (new Date()).getTime(), 
     paths: {
         'jquery' : 'libs/jquery-1.10.2',
         'backbone' : 'libs/backbone',
