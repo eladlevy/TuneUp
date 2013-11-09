@@ -218,11 +218,15 @@ and (max-width : 568px) {
     
     .requester-item-wrapper {
         width: 98%;
-        height: 50px;
+        height: 50pxx   ;
     }
     
     .requester-item-wrapper > img {
         width: 50px;
         height: 100%;
+    }
+    
+    .requester-next {
+        width: 100%;
     }
 }
