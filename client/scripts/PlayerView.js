@@ -166,10 +166,18 @@ function($, Backbone, PlayerQueue, Fancyinput, SearchResults, ListItemView, _, P
  
                 this.nextRequestView.clean();
             } else {
-                this.playListView.render();
-                var nextTrack = this.model.head();
+                var nextTrack;
+                if (_.isNumber(this.model._meta.index)) {
+                    nextTrack = this.model.at(this.model._meta.index);
+                    this.playListView.renderIndicator();
+                    this.model._meta.index = this.model._meta.index + 1;
+                } else {
+                    nextTrack = this.model.head();
+                    this.model._meta.index = 0;
+                }
+                this.playListView.render();                
                 this.ytplayer.loadVideoById(nextTrack.id);
-                this.model.remove(nextTrack);                
+                //this.model.remove(nextTrack);                
             }
             
         }

@@ -2,6 +2,7 @@ requirejs.config({
    baseUrl: '/scripts/',
     paths: {
         'jquery' : 'libs/jquery-1.10.2',
+        'jquery-nicescroll': 'libs/jquery.nicescroll.min',
         'backbone' : 'libs/backbone',
         'underscore' : 'libs/underscore',
         'Handlebars' : 'libs/handlebars',
@@ -12,7 +13,8 @@ requirejs.config({
         'jquery-cookie': 'libs/jquery.cookie',
     },
     shim: {
-        'jquery-cookie': ['jquery']
+        'jquery-cookie': ['jquery'],
+        'jquery-nicescroll': ['jquery']
     }
 });
 

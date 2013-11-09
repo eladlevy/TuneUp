@@ -57,14 +57,10 @@ template, FancyInput, SearchResults, _, ListItemView, NextRequestView, RequestTr
          },
          
          itemClicked: function(event) {
-             console.log(event);
+             
          },
          
          render: function() {
-//            var data = {data:this.model.toJSON()};
-//            var html = template(data);
-//            this.$('.requester-results').html(html);
-//            return this;
             var thisView = this;
             _.each(this.subViews, function(view) {
                thisView.$el.append(view.render().$el); 

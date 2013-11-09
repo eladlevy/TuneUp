@@ -13,7 +13,8 @@ template, _, PlayerQueue) {
             this.$el.find('.nextrequest-holder').css('transform', 'translateX(-300px)');
             setTimeout(function(){
                 thisView.$el.find('.nextrequest-holder').remove();
-                thisView.model.set("id", "", {silent:true});
+                //thisView.model.set("id", "", {silent:true});
+                thisView.model.clear();
             }, 1200);
             
          },

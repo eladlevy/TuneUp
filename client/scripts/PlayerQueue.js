@@ -3,8 +3,10 @@ define(['jquery', 'backbone', 'jquery-cookie'], function($, Backbone, jqueryCook
         model: Backbone.Model,
         
         initialize: function() {
-          this._meta = {'next-track': "",
-                  'name': $.cookie('tuneUp-name')
+          this._meta = {
+              'next-track': "",
+              'name': $.cookie('tuneUp-name'),
+              'index': undefined
                     };
         },
         url: function() {
